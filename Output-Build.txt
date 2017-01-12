@@ -1,0 +1,77 @@
+﻿1>------ Rebuild All started: Project: simplecab, Configuration: Release Win32 ------
+1>Build started 25/06/2014 16:44:31.
+1>_PrepareForClean:
+1>  Deleting file "Release\simplecab.lastbuildstate".
+1>InitializeBuildStatus:
+1>  Touching "Release\simplecab.unsuccessfulbuild".
+1>ClCompile:
+1>  stdafx.cpp
+1>  objectInfo.cpp
+1>c:\users\zee\documents\visual studio 2010\projects\backcode\code170614\simplecab\simplecab\ObjectInfo.h(76): warning C4042: 'm' : has bad storage class
+1>objectInfo.cpp(21): warning C4042: 'm' : has bad storage class
+1>objectInfo.cpp(54): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>objectInfo.cpp(55): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>objectInfo.cpp(87): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>objectInfo.cpp(88): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>objectInfo.cpp(121): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>objectInfo.cpp(122): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+1>  RFIDTag.cpp
+1>c:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+1>  simplecab.cpp
+1>c:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+1>c:\program files\mysql\mysql connector c++ 1.1.3\include\cppconn\sqlstring.h(38): warning C4251: 'sql::SQLString::realStr' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'sql::SQLString'
+1>          with
+1>          [
+1>              _Elem=char,
+1>              _Traits=std::char_traits<char>,
+1>              _Ax=std::allocator<char>
+1>          ]
+1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\mysql_connection.h(165): warning C4251: 'sql::mysql::MySQL_Connection::proxy' : class 'boost::shared_ptr<T>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+1>          with
+1>          [
+1>              T=sql::mysql::NativeAPI::NativeConnectionWrapper
+1>          ]
+1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\mysql_connection.h(169): warning C4251: 'sql::mysql::MySQL_Connection::service' : class 'boost::scoped_ptr<T>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+1>          with
+1>          [
+1>              T=sql::mysql::MySQL_Statement
+1>          ]
+1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\cppconn\exception.h(61): warning C4251: 'sql::SQLException::sql_state' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'sql::SQLException'
+1>          with
+1>          [
+1>              _Elem=char,
+1>              _Traits=std::char_traits<char>,
+1>              _Ax=std::allocator<char>
+1>          ]
+1>c:\users\zee\documents\visual studio 2010\projects\backcode\code170614\simplecab\simplecab\ObjectInfo.h(76): warning C4042: 'm' : has bad storage class
+1>simplecab.cpp(155): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+1>simplecab.cpp(332): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(335): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(336): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(337): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(438): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(439): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(447): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(448): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(457): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(458): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(467): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(468): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+1>simplecab.cpp(478): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+1>simplecab.cpp(514): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _itoa. See online help for details.
+1>          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdlib.h(867) : see declaration of 'itoa'
+1>simplecab.cpp(489): warning C4101: 'wsaData' : unreferenced local variable
+1>simplecab.cpp(557): warning C4101: 'WsaDat' : unreferenced local variable
+1>simplecab.cpp(628): error C2059: syntax error : '}'
+1>simplecab.cpp(628): error C2143: syntax error : missing ';' before '}'
+1>simplecab.cpp(628): error C2059: syntax error : '}'
+1>simplecab.cpp(630): error C2143: syntax error : missing ';' before '{'
+1>simplecab.cpp(630): error C2447: '{' : missing function header (old-style formal list?)
+1>
+1>Build FAILED.
+1>
+1>Time Elapsed 00:00:12.02
+========== Rebuild All: 0 succeeded, 1 failed, 0 skipped ==========

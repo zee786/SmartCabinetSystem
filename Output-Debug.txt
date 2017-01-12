@@ -1,0 +1,15 @@
+﻿'simplecab.exe': Loaded 'C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\Release\simplecab.exe', Symbols loaded.
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\ntdll.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\kernel32.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\KernelBase.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\Release\opencv_core245.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\ws2_32.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\msvcp100.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\msvcr100.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\nsi.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\rpcrt4.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\sspicli.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\cryptbase.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\sechost.dll', Cannot find or open the PDB file
+'simplecab.exe': Loaded 'C:\Windows\SysWOW64\bcryptprimitives.dll', Cannot find or open the PDB file
+The program '[996] simplecab.exe: Native' has exited with code 0 (0x0).

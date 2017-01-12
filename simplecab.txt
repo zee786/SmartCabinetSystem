@@ -1,0 +1,978 @@
+// simplecab.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+
+#ifdef _DEBUG
+#pragma comment( lib, "opencv_imgproc245d.lib" )
+#pragma comment( lib, "opencv_core245d.lib" )
+#pragma comment( lib, "opencv_highgui245d.lib" )
+#pragma comment( lib, "opencv_calib3d245d.lib" )
+#pragma comment( lib, "opencv_features2d245d.lib" )
+#pragma comment( lib, "opencv_flann245d.lib" )
+#else
+#pragma comment( lib, "opencv_imgproc245.lib" )
+#pragma comment( lib, "opencv_core245.lib" )
+#pragma comment( lib, "opencv_highgui245.lib" )
+#pragma comment( lib, "opencv_calib3d245.lib" )
+#pragma comment( lib, "opencv_features2d245.lib" )
+#pragma comment( lib, "opencv_flann245.lib" )
+#pragma comment( lib, "opencv_nonfree245.lib" )
+//#pragma comment (lib, "Ws2_32.lib")
+#endif
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
+#include <string>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/features2d/features2d.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/nonfree/nonfree.hpp>
+//#include <boost\thread\thread.hpp>
+#include <opencv\cv.h>
+#include <conio.h>
+
+#include "mysql_connection.h"
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
+#include <driver.h>
+#include <exception.h>
+#include <resultset.h>
+#include <statement.h>
+#include <prepared_statement.h>
+#include <winsock.h>
+#include <mysql.h>
+#include "ObjectInfo.h"
+//#pragma comment (lib, "Ws2_32.lib")
+
+using namespace std;
+using namespace cv;
+CvPoint point;
+void readme();
+double transMat[3][4];
+double point4[8];
+#define PRO_WIDTH 1280
+#define PRO_HEIGHT 800
+cv::Mat_< cv::Vec3b > canvas;
+std::vector< cv::Vec2f > points_pro( 4 );
+int d=0;
+cv::Mat undistorted;
+cv::Mat map_x,map_y;
+int ind = 0;
+cv::Mat_< cv::Vec3b > image;
+ /// Function Headers
+ void update_map( void );
+ //#define DEFAULT_PORT "1234"
+ #define DEFAULT_PORT "10777"
+ 	const char* doorID="e004015021f5dcc8";
+	
+
+	void InitServer2();
+	bool read_tagInfo();
+
+
+ ObjectInfo *obj;
+ int ConCounter = 0;
+ int n=0;
+ //------------database variables---------------------------
+ int mode;
+ bool readtag=false;
+
+cv::Mat ori_tex, teximg;
+
+sql::Driver *driver;
+sql::Connection *con;
+sql::Statement *stmt;
+sql::ResultSet *res;
+sql::PreparedStatement  *prep_stmt;
+sql::PreparedStatement  *prep_stmt1;
+SOCKADDR_IN addr;
+
+			std::vector< cv::Vec2f > points_cam( 4 );
+SOCKET sListen;
+SOCKET sConnect;
+SOCKET* Connections;
+int addrlen = sizeof(addr);
+struct Buffer
+{
+	int ID;
+	char Message[1024];
+};
+SOCKET s; //Socket handle
+WSADATA wsadata;
+int iResult;
+int Id=1;
+void InitServer();
+void db_connection();
+void displayInformation();
+void mymouse(int event, int x, int y, int flags, void* param);
+
+//----------------------------------------
+
+int ServerThread2(int ID);
+
+int ServerThread(int ID)
+{
+		bool cImage;
+		cImage=false;
+		cout << "?";
+		Buffer sbuffer;
+
+		char buf[15];
+		int n=0;
+		char* Recv = new char[1024];
+		ZeroMemory(Recv, 1024);
+	
+		// In Send we will copy the content of the struct
+		// and after this we will send "Send" to the client
+		char* Send = new char[sizeof(Buffer)];
+		ZeroMemory(Send, sizeof(Buffer));
+
+		
+		for(;; Sleep(10))
+		{
+			// Same here!
+			if(recv(Connections[ID], Recv, 1024, NULL))
+			{
+				sbuffer.ID = ID;
+				memcpy(sbuffer.Message, Recv, 1024);
+				memcpy(Send, &sbuffer, sizeof(Buffer));
+			
+				for(int a = 0; a != ConCounter; a++)
+				{
+					if(Connections[a] == Connections[ID])
+					{
+
+					}
+					else
+					{
+						send(Connections[a], Send, sizeof(Buffer), NULL);
+					}
+				}
+		
+			}
+				//printf("%s \0", Recv);
+				string* row=new string(Recv);
+				int p=row->find(" ");
+			
+				for(int i=0;i<row->length();i++)
+				{
+					
+				}
+					obj = new ObjectInfo(Recv);
+					displayInformation();
+			
+				if( obj->TexImageIsCreated() ){
+					cv::cvtColor(obj->GetTexImage(), teximg, CV_BGR2RGB, 0);
+					cout << "Texture was made!"<<endl;
+					bool tag=read_tagInfo();
+			
+				}
+
+			   //string filepath=row->substr(0,p);
+				ZeroMemory(Recv, 1024);
+	
+		}
+		
+		cout << " Naka ";	
+		cout << "Thread OUT! ";
+		return 0;
+}
+
+
+int ServerThread2(int ID)
+{
+		bool cImage;
+		cImage=false;
+		cout << "?";
+		Buffer sbuffer;
+
+		char buf[15];
+		int n=0;
+		const char* doorID="e004015021f5dcc8";
+			int Id =1;
+			stringstream strUID;
+			string rANTID;
+			string rUID;
+			string sUID;
+			int z;
+		
+			char buf1[32];
+			stringstream strANT;
+			stringstream tagID,tagID1;
+
+			int updaterec=0;
+			
+			int x;
+			int y;
+		
+
+
+		char* Recv = new char[1024];
+		ZeroMemory(Recv, 1024);
+	
+		// In Send we will copy the content of the struct
+		// and after this we will send "Send" to the client
+		char* Send = new char[sizeof(Buffer)];
+		ZeroMemory(Send, sizeof(Buffer));
+
+		
+		for(;; Sleep(10))
+		{
+			// Same here!
+			if(recv(Connections[ID], Recv, 1024, NULL))
+			{
+					memset(buf, 0, sizeof(buf));
+					n = recv(s, buf, sizeof(buf),0);
+				sbuffer.ID = ID;
+				memcpy(sbuffer.Message, Recv, 1024);
+				memcpy(Send, &sbuffer, sizeof(Buffer));
+			
+				for(int a = 0; a != ConCounter; a++)
+				{
+					if(Connections[a] == Connections[ID])
+					{
+
+					}
+					else
+					{
+						send(Connections[a], Send, sizeof(Buffer), NULL);
+					}
+				}
+		
+			}
+				//printf("%s \0", Recv);
+				for(  y = 0; y < 3; y++ ) 
+				  {
+	            	 printf("%02x  ", (unsigned char)buf[y]);
+					  strANT << setfill('0') << setw(2) << hex << (int)((unsigned char)buf[y]);
+					
+				  }
+				     cout<<"ANTID "<<strANT.str().c_str()<<endl;
+				  for(  x = 0; x < n; x++ ) 
+				  {
+						//printf("%02x  ", (unsigned char)buf[x]);
+				  
+				  
+				  }
+			 for(   z = 11; z > 3; z-- ) 
+				  {
+	     		    printf("%02x  ", (unsigned char)buf[z]);
+				 	 strUID << setfill('0') << setw(2) << hex << (int)((unsigned char)buf[z]);
+				   }
+		
+			 tagID<<strANT.str();
+			 strUID<<tagID.str();
+			 cout<<strUID.str();
+			 if(strcmp(strUID.str().c_str(),doorID)==0)
+			 {
+					cout<<"door is closed"<<endl;	
+				 
+			 }
+			 else
+			 {
+			 		cout<<"door is open"<<endl;	
+				 
+			 }
+			 if(strUID.str().length()==0)
+			{
+				cout<<"door is open"<<endl;
+
+			}
+
+			 strUID.clear();
+			 strANT.clear();
+		
+		
+
+
+
+		}
+
+
+		return 0;
+}
+
+
+
+void display(double x,double y,double width,double height,cv::Mat_< float >  homography)
+{
+
+				cv::Mat a=(cv::Mat_<float>(3,1)<<x,y,1);
+				cv::Mat b=(cv::Mat_<float>(3,1)<<x+width,y,1);
+				cv::Mat c=(cv::Mat_<float>(3,1)<<x,y+height,1);
+				cv::Mat d=(cv::Mat_<float>(3,1)<<x+width,y+height,1);
+			
+				cv::Mat ha=homography * a;
+				cv::Mat hb=homography * b;
+				cv::Mat hc=homography * c;
+				cv::Mat hd=homography * d;
+		
+				std::vector< cv::Vec2f > points_subArea( 4 );
+				points_subArea[0][0]=ha.at<float>(0,0)/ha.at<float>(2,0);
+				points_subArea[0][1]=ha.at<float>(1,0)/ha.at<float>(2,0);
+			
+				points_subArea[1][0]=hb.at<float>(0,0)/hb.at<float>(2,0);
+				points_subArea[1][1]=hb.at<float>(1,0)/hb.at<float>(2,0);
+			
+				points_subArea[2][0]=hc.at<float>(0,0)/hc.at<float>(2,0);
+				points_subArea[2][1]=hc.at<float>(1,0)/hc.at<float>(2,0);
+			
+				points_subArea[3][0]=hd.at<float>(0,0)/hd.at<float>(2,0);
+				points_subArea[3][1]=hd.at<float>(1,0)/hd.at<float>(2,0);
+			
+				homography = cv::findHomography(points_cam, points_subArea, CV_RANSAC);
+			//	image=rgb_image.clone();
+				image=obj->GetTexImage().clone();
+		//		cv::warpPerspective(rgb_image, image, homography, cv::Size(PRO_WIDTH, PRO_HEIGHT));
+				cv::warpPerspective(obj->GetTexImage(), image, homography, cv::Size(PRO_WIDTH, PRO_HEIGHT));		
+				cv::circle(image, cv::Point(points_pro[0][0], points_pro[0][1]), 6, cv::Scalar(200,100,100), 3, 4);
+				cv::circle(image, cv::Point(points_pro[1][0], points_pro[1][1]), 6, cv::Scalar(200,200,200), 3, 4);
+				cv::circle(image, cv::Point(points_pro[2][0], points_pro[2][1]), 6, cv::Scalar(200,200,200), 3, 4);
+				cv::circle(image, cv::Point(points_pro[3][0], points_pro[3][1]), 6, cv::Scalar(200,200,200), 3, 4);
+
+				cv::circle(image, cv::Point(points_subArea[0][0], points_subArea[0][1]), 6, cv::Scalar(300,300,100), 3, 4);
+				cv::circle(image, cv::Point(points_subArea[1][0], points_subArea[1][1]), 6, cv::Scalar(300,200,300), 3, 4);
+				cv::circle(image, cv::Point(points_subArea[2][0], points_subArea[2][1]), 6, cv::Scalar(300,300,300), 3, 4);
+				cv::circle(image, cv::Point(points_subArea[3][0], points_subArea[3][1]), 6, cv::Scalar(300,300,300), 3, 4);
+				cv::imshow("canvas", canvas);
+				cv::imshow("canvas", image);
+
+
+
+}
+bool read_tagInfo()
+
+{
+		
+			int Id =1;
+			
+			string rANTID;
+			string rUID;
+			string sUID;
+			int z;
+			char buf[15];
+			char buf1[32];
+			stringstream strANT;
+			stringstream tagID,tagID1;
+			stringstream strUID;
+			int updaterec=0;
+			int i=0;
+			int x;
+			int y;
+			Buffer sbuffer;
+			cout<<"read tag info"<<endl;
+			while(true)
+			{
+				memset(buf, 0, sizeof(buf));
+				n = recv(s, buf, sizeof(buf),0);
+				cout << "value of n" << n << endl;
+				if(n >0 )
+				{
+					//projection
+
+						InitServer2();
+						canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+						cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+						cv::imshow("canvas", canvas);
+						cv::setMouseCallback("canvas", mymouse, NULL);
+						//bool tag=read_tagInfo();
+						cv::waitKey(0);
+			 	}
+				else
+				{
+						//no projection
+
+							//MessageBoxA(NULL, "door is open", "Error", MB_OK | MB_ICONERROR);
+			
+				}
+			}
+			
+
+			
+					 return readtag=false;
+}
+void hello()
+{
+
+	cout<<"Hello world , I am thread"<<endl;
+
+}
+
+
+void displayInformation()
+{
+		
+			cv::Mat_< cv::Vec3b > rgb_image  = cv::imread("./kitchenimages/cup.jpg");
+			
+			int w = obj->GetTexImage().size().width;
+			int h = obj->GetTexImage().size().height;
+			int fontFace = cv::FONT_ITALIC;
+			double fontScale = 1.5;
+			int thickness = 5;  
+
+			
+			points_cam[0][0] = 0;
+			points_cam[0][1] = 0;
+			points_cam[1][0] = w;
+			points_cam[1][1] = 0;
+			points_cam[2][0] = 0;
+			points_cam[2][1] = h;
+			points_cam[3][0] = w;
+			points_cam[3][1] = h;
+			//projection plane and image plane homography
+			cv::Mat_< float >  homography = cv::findHomography(points_cam, points_pro, CV_RANSAC);
+			if(obj->GetShelfNo()==0)
+			{
+				// Right
+				double x=0.20*w;		double y=0.05*h;		double width=0.2*w;		double height=0.45*h;
+				display(x,y,width,height,homography);
+		
+			}
+
+			if(obj->GetShelfNo()==1)
+			{
+		
+				double x=0.20*w;		double y=0.5*h;		double width=0.2*w;		double height=0.45*h;
+				display(x,y,width,height,homography);
+			}
+			if(obj->GetShelfNo()==2)
+			{
+				double x=0.55*w;		double y=0.5*h;		double width=0.2*w;		double height=0.45*h;
+				display(x,y,width,height,homography);
+			}
+
+				if(obj->GetShelfNo()==3)
+			{
+				double x=0.55*w;		double y=0.05*h;		double width=0.2*w;		double height=0.45*h;
+				display(x,y,width,height,homography);
+			}
+}
+
+
+void mymouse(int event, int x, int y, int flags, void* param)
+{
+	
+	Mat outImg;
+	Scalar color;
+		int x1,y1,x2,y2,x3,y3;
+	
+		if(event == CV_EVENT_LBUTTONDOWN)
+		{
+
+	
+			point=cvPoint(x, y);
+			printf("(x, y) is (%d, %d)", point.x, point.y);
+			printf("\n");
+			if(d==0)
+			{
+				x=point.x;
+				y=point.y;
+				points_pro[0][0]=x;
+				points_pro[0][1]=y;
+			
+			}
+			if(d==1)
+			{
+				x1=point.x;
+				y1=point.y;
+				points_pro[1][0]=x1;
+				points_pro[1][1]=y1;
+			
+			}
+			if(d==2)
+			{
+				x2=point.x;
+				y2=point.y;
+				points_pro[2][0]=x2;
+				points_pro[2][1]=y2;
+			
+			}
+			if(d==3)
+			{
+				 x3=point.x;
+				 y3=point.y;
+				  points_pro[3][0]=x3;
+				 points_pro[3][1]=y3;
+			
+			
+			}
+			d++;
+			
+
+		if(d >3)
+		{
+			//create a file and save the details
+			FILE *fp;
+			int arr[3][2];
+			fp=fopen("predef.dat","w");
+			
+					fprintf(fp, "%d , %d\n%d , %d\n%d , %d\n%d , %d\n", x,y, x1,y1, x2,y2, x3,y3);
+					
+				
+			fclose(fp);
+		}
+
+
+		}
+
+}
+
+
+
+void displayObjectInformation(int num)
+{
+	double cX, cY, cZ;
+	
+	static bool connectFirst = true;
+	static Buffer sbuffer;
+	static struct timeval recv_tv;
+
+	static char* Recv = new char[1024];
+	ZeroMemory(Recv, 1024);
+
+	// In Send we will copy the content of the struct
+	// and after this we will send "Send" to the client
+	static char* Send = new char[sizeof(Buffer)];
+	static int ID2;
+
+	
+
+	if( connectFirst == true ){
+		if( sConnect = accept(sListen, (SOCKADDR*)&addr, &addrlen) ){
+			Connections[ConCounter] = sConnect;
+
+			char* ID = new char[64];
+			ZeroMemory(ID, sizeof(ID));
+
+			itoa(ConCounter, ID, 10);
+			send(Connections[ConCounter], ID, sizeof(ID), NULL);
+
+			ID2 = ConCounter;
+			connectFirst = false;
+
+			// Setting for timeout of the receive function
+			recv_tv.tv_sec =  1; //[sec]
+			recv_tv.tv_usec = 0;
+			setsockopt(sConnect, SOL_SOCKET, SO_RCVTIMEO, (char*)&recv_tv, sizeof(recv_tv));
+		}
+	}
+	else{
+
+		if( recv(Connections[ID2], Recv, 1024, NULL) ){
+			//int n=recv(sConnect, Recv, 1024, NULL);
+			sbuffer.ID = ID2;
+			//memcpy(sbuffer.Message, Recv, 1024);
+			memcpy(Send, &sbuffer, sizeof(Buffer));
+
+			for( int a = 0; a != ConCounter; a++ ){
+				if( Connections[a] == Connections[ID2] ){
+				}
+				else{
+					send(Connections[a], Send, sizeof(Buffer), NULL);
+				}
+			}
+		
+			string* row=new string(Recv);
+			int p=row->find(" ");
+
+			obj = new ObjectInfo(Recv,mode);
+			if( obj->TexImageIsCreated() ){
+		//		cv::cvtColor(obj->GetTexImage(), teximg, CV_BGR2RGB, 0);
+				cout << "Texture was made!"<<endl;
+				
+			}
+			delete obj;
+			ZeroMemory(Recv, 1024);
+		}
+	}
+	
+}
+
+void InitServer(void)
+{
+
+	
+	int RetVal = 0;
+	WSADATA wsaData;
+	if(RetVal != 0)
+	{
+		MessageBoxA(NULL, "Winsock startup failed", "Error", MB_OK | MB_ICONERROR);
+		exit(1);
+	}
+
+			Connections = (SOCKET*)calloc(64, sizeof(SOCKET));
+
+			sListen = socket(AF_INET, SOCK_STREAM, NULL);
+			sConnect = socket(AF_INET, SOCK_STREAM, NULL);
+			//addr.sin_addr.s_addr = inet_addr("10.16.77.171");
+			//addr.sin_addr.s_addr = inet_addr("192.168.2.");
+			addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+			addr.sin_port        = htons(1234);
+			addr.sin_family      = AF_INET;
+
+			::bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
+	
+			(sListen, 64);
+	if(sConnect = accept(sListen, (SOCKADDR*)&addr, &addrlen))
+		{
+			Connections[ConCounter] = sConnect;
+
+			char* ID = new char[64];
+			ZeroMemory(ID, sizeof(ID));
+
+			itoa(ConCounter, ID, 10);
+			send(Connections[ConCounter], ID, sizeof(ID), NULL);
+
+			ConCounter = ConCounter + 1;
+			//ServerThread(ConCounter);		
+			//recvdata();
+			//CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) ServerThread, (LPVOID)(ConCounter - 1), NULL, NULL);
+		}
+	//}
+		
+	
+}
+
+void InitServer2(void)
+{
+		int RetVal = 0;
+		WSADATA wsaData;
+		if(RetVal != 0)
+		{
+			MessageBoxA(NULL, "Winsock startup failed", "Error", MB_OK | MB_ICONERROR);
+			exit(1);
+		}
+
+		Connections = (SOCKET*)calloc(64, sizeof(SOCKET));
+
+		sListen = socket(AF_INET, SOCK_STREAM, NULL);
+		sConnect = socket(AF_INET, SOCK_STREAM, NULL);
+		//addr.sin_addr.s_addr = inet_addr("10.16.77.170");
+		addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+		addr.sin_port        = htons(1234);
+		addr.sin_family      = AF_INET;
+
+		::bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
+	
+		listen(sListen, 64);
+	if(sConnect = accept(sListen, (SOCKADDR*)&addr, &addrlen))
+		{
+			Connections[ConCounter] = sConnect;
+
+			char* ID = new char[64];
+			ZeroMemory(ID, sizeof(ID));
+
+			itoa(ConCounter, ID, 10);
+			send(Connections[ConCounter], ID, sizeof(ID), NULL);
+
+			ConCounter = ConCounter + 1;
+			//ServerThread(ConCounter);		
+			//recvdata();
+			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE) ServerThread, (LPVOID)(ConCounter - 1), NULL, NULL);
+		}
+	//}
+		
+	
+}
+void read_tagInformation()
+{
+
+				int Id =1;
+			
+				string rANTID;
+				string rUID;
+				string sUID;
+				int z;
+				char buf[15];
+				char buf1[32];
+				stringstream strANT;
+				stringstream tagID,tagID1;
+				stringstream strUID;
+				int updaterec=0;
+				int i=0;
+				int x;
+				int y;
+				static Buffer sbuffer;
+				static struct timeval recv_tv;
+				static int ID2;
+
+
+				 char* Recv = new char[1024];
+				 ZeroMemory(Recv, 1024);
+
+
+
+				char* Send = new char[sizeof(Buffer)];
+				if(sConnect = accept(sListen, (SOCKADDR*)&addr, &addrlen))
+					{
+
+
+						if (sConnect == INVALID_SOCKET) 
+						{
+								printf("Unable to connect to server!\n");
+								WSACleanup();
+								exit(1);
+						}
+
+						if (iResult == SOCKET_ERROR)
+						{
+							closesocket(s);
+							s = INVALID_SOCKET;
+							//printf ("The server is down... did not connect");
+							MessageBoxA(NULL, "Could not connect to server", "Error", MB_OK | MB_ICONERROR);
+						}
+
+
+						Connections[ConCounter] = sConnect;
+
+						char* ID = new char[64];
+						ZeroMemory(ID, sizeof(ID));
+
+						itoa(ConCounter, ID, 10);
+						send(Connections[ConCounter], ID, sizeof(ID), NULL);
+
+						ConCounter = ConCounter + 1;
+						ID2=ConCounter;
+						// Setting for timeout of the receive function
+						recv_tv.tv_sec =  1; //[sec]
+						recv_tv.tv_usec = 0;
+						setsockopt(sConnect, SOL_SOCKET, SO_RCVTIMEO, (char*)&recv_tv, sizeof(recv_tv));
+					}
+
+				else{
+
+					if( recv(Connections[ID2], Recv, 1024, NULL) ){
+						//int n=recv(sConnect, Recv, 1024, NULL);
+						sbuffer.ID = ID2;
+						//memcpy(sbuffer.Message, Recv, 1024);
+						memcpy(Send, buf, sizeof(buf));
+				
+						for( int a = 0; a != ConCounter; a++ ){
+							if( Connections[a] == Connections[ID2] ){
+							}
+							else{
+								send(Connections[a], Send, sizeof(Buffer), NULL);
+							}
+						}
+		
+						string* row=new string(Recv);
+						
+						for(  y = 0; y < 3; y++ ) 
+											  {
+	            								 //printf("%02x  ", (unsigned char)buf[y]);
+												  strANT << setfill('0') << setw(2) << hex << (int)((unsigned char)Recv[y]);
+					
+											  }
+												// cout<<"ANTID "<<strANT.str().c_str()<<endl;
+											for(   z = 11; z > 3; z-- ) 
+											{
+	     									//	printf("%02x  ", (unsigned char)buf[z]);
+				 								 strUID << setfill('0') << setw(2) << hex << (int)((unsigned char)Recv[z]);
+											   }
+		
+										 //tagID<<strANT.str();
+										 //strUID<<tagID.str();
+			 							 //cout<<strUID.str();
+										 if(strcmp(strUID.str().c_str(),doorID)==0)
+										 {
+												cout<<"door is closed"<<endl;	
+												/*InitServer2();
+												canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+												cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+												cv::imshow("canvas", canvas);
+												cv::setMouseCallback("canvas", mymouse, NULL);
+												bool tag=read_tagInfo();
+												cv::waitKey(0);*/
+			 							 }
+										 else
+										 {
+			 
+														cout<<"door is open"<<endl;	
+													/*	canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+														cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+														cv::imshow("canvas", canvas);*/
+										 }
+
+									 if(strUID.str().length()==0)
+										{
+											cout<<"open"<<endl;
+										}
+
+
+
+
+
+					}
+				}
+
+}
+void db_connection()
+{
+	try {
+		
+			/* Create a connection */
+			driver = get_driver_instance();
+			con = driver->connect("", "root", "");
+			/* Connect to the MySQL test database */
+			con->setSchema("test");
+
+		}
+			catch (sql::SQLException &e) {
+			cout<<"Sql Error" << &e;
+			cout << "# ERR: SQLException in " << __FILE__;
+			cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
+			cout << "# ERR: " << e.what();
+			cout << " (MySQL error code: " << e.getErrorCode();
+			cout << ", SQLState: " << e.getSQLState() << " )" << endl;
+
+}
+
+}
+void socket_connection()
+{
+		
+			s = INVALID_SOCKET;
+
+			static struct timeval recv_tv;
+	    	struct addrinfo *result = NULL,
+									*ptr = NULL,
+									hints;
+
+					// Initialize Winsock
+					iResult = WSAStartup(MAKEWORD(2,2), &wsadata);
+					if (iResult != 0) 
+					{
+						printf("WSAStartup failed with error: %d\n", iResult);
+						exit(1);
+					}
+
+					// set address info
+					ZeroMemory( &hints, sizeof(hints) );
+					hints.ai_family = AF_UNSPEC;
+					hints.ai_socktype = SOCK_STREAM;
+					hints.ai_protocol = IPPROTO_TCP;  //TCP connection!!!
+					//resolve server address and port 
+					iResult = getaddrinfo("10.16.77.170",DEFAULT_PORT, &hints, &result);
+					if( iResult != 0 ) 
+					{
+						printf("getaddrinfo failed with error: %d\n", iResult);
+						WSACleanup();
+						exit(1);
+					}
+
+					// Attempt to connect to an address until one succeeds
+					for(ptr=result; ptr != NULL ;ptr=ptr->ai_next) {
+						// Create a SOCKET for connecting to server
+						s= socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+
+					if (s == INVALID_SOCKET) {
+						printf("socket failed with error: %ld\n", WSAGetLastError());
+						WSACleanup();
+						exit(1);
+					}
+
+					// Connect to server.
+					iResult = connect( s, ptr->ai_addr, (int)ptr->ai_addrlen);
+					
+
+					if (iResult == SOCKET_ERROR)
+					{
+						closesocket(s);
+						s = INVALID_SOCKET;
+						//printf ("The server is down... did not connect");
+						MessageBoxA(NULL, "Could not connect to server", "Error", MB_OK | MB_ICONERROR);
+					}
+				}
+
+				// no longer need address info for server
+				freeaddrinfo(result);
+					// if connection failed
+					if (s == INVALID_SOCKET) 
+					{
+						printf("Unable to connect to server!\n");
+					
+						WSACleanup();
+						exit(1);
+					}
+					 // Set the mode of the socket to be nonblocking
+					u_long iMode = 1;
+				   // iResult = ioctlsocket(st, FIONBIO, &iMode);
+					if (iResult == SOCKET_ERROR)
+					{
+						printf("ioctlsocket failed with error: %d\n", WSAGetLastError());
+						closesocket(s);
+						WSACleanup();
+						exit(1);        
+					}
+					//disable nagle
+					char value = 1;
+					MessageBoxA(NULL, "Server connected", "Message", MB_OK | MB_ICONERROR);
+					recv_tv.tv_sec =  1; //[sec]
+					recv_tv.tv_usec = 0;
+				//	setsockopt( s, IPPROTO_TCP, TCP_NODELAY, &value, sizeof( value ) );
+					setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&recv_tv, sizeof(recv_tv));
+
+}
+
+
+int _tmain()
+{
+	//closesocket(s);
+	//InitServer2();
+	socket_connection();
+	//InitServer();
+	
+	cout<<"server is connected"<<endl;
+	while(true)
+	{
+		read_tagInfo();
+	}
+	//bool tag=read_tagInfo();
+	/*while(true)
+	{
+	
+		 if(strcmp(strUID.str().c_str(),doorID)==0)
+		{
+						
+		}
+		 
+			cout<<"Value of tag"<<tag<<endl;
+			if(tag==false)
+			{
+					MessageBoxA(NULL, "door is open", "Error", MB_OK | MB_ICONERROR);
+			
+			
+			}
+
+			
+	}*/
+
+		//bool tag=read_tagInfo();
+
+		
+		//getch();
+		
+	/*	db_connection();
+		InitServer2();
+		canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+		cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+		cv::imshow("canvas", canvas);
+		cv::setMouseCallback("canvas", mymouse, NULL);
+		cv::waitKey(0);*/
+
+		//boost::thread thrd(&hello);
+		//thrd.join();
+		return 0;
+
+	
+	
+	
+}
+
+ 

@@ -1,0 +1,92 @@
+bool read_tagInfo()
+
+{
+		
+			int Id =1;
+			
+			string rANTID;
+			string rUID;
+			string sUID;
+			int z;
+			char buf[15];
+			char buf1[32];
+			stringstream strANT;
+			stringstream tagID,tagID1;
+			stringstream strUID;
+			int updaterec=0;
+			int i=0;
+			int x;
+			int y;
+			Buffer sbuffer;
+			cout<<"read tag info"<<endl;
+			while(true)
+			{
+				memset(buf, 0, sizeof(buf));
+				n = recv(s, buf, sizeof(buf),0);
+				cout << "value of n" << n << endl;
+				if(n >0 )
+				{
+					
+							for(  y = 0; y < 3; y++ ) 
+								  {
+	            					 //printf("%02x  ", (unsigned char)buf[y]);
+									  strANT << setfill('0') << setw(2) << hex << (int)((unsigned char)buf[y]);
+					
+								  }
+									// cout<<"ANTID "<<strANT.str().c_str()<<endl;
+								for(   z = 11; z > 3; z-- ) 
+								{
+	     						//	printf("%02x  ", (unsigned char)buf[z]);
+				 					 strUID << setfill('0') << setw(2) << hex << (int)((unsigned char)buf[z]);
+								   }
+		
+							 //tagID<<strANT.str();
+							 //strUID<<tagID.str();
+			 				 //cout<<strUID.str();
+							 if(strcmp(strUID.str().c_str(),doorID)==0)
+							 {
+
+								 
+								 cout<<"door is closed"<<endl;	
+									/*InitServer2();
+									canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+									cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+									cv::imshow("canvas", canvas);
+									cv::setMouseCallback("canvas", mymouse, NULL);
+									bool tag=read_tagInfo();
+									cv::waitKey(0);*/
+			 				 }
+						 else
+							{
+								//cout<<"door is closed"<<endl;	
+								cout<<strUID.str().c_str()<<endl;
+								if(strcmp(strUID.str().c_str(),doorID)==0)
+								 {
+								 	 cout<<"door is closed"<<endl;	
+									/*InitServer2();
+									canvas = cv::Mat(PRO_HEIGHT, PRO_WIDTH, CV_8UC3);
+									cv::namedWindow("canvas", CV_WINDOW_FULLSCREEN);
+									cv::imshow("canvas", canvas);
+									cv::setMouseCallback("canvas", mymouse, NULL);
+									bool tag=read_tagInfo();
+									cv::waitKey(0);*/
+			 					 }
+							}
+				}
+				else
+				{
+				
+							MessageBoxA(NULL, "door is open", "Error", MB_OK | MB_ICONERROR);
+				
+				
+				}
+
+			 strUID.clear();
+			 strANT.clear();
+			
+			}
+			
+
+			
+					 return readtag=false;
+}
