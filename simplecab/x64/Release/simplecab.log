@@ -1,0 +1,92 @@
+﻿Build started 21/05/2014 23:45:41.
+     1>Project "C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\simplecab\simplecab.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "x64\Release\simplecab.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "x64\Release\simplecab.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\opencv\build\include /I"C:\Program Files\MySQL\MySQL Server 5.6\include" /I"C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include" /I"C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\cppconn" /I"D:\NAIST work\FujLatestCode\mysql-5.6.13-winx64\mysql64\include" /I"D:\NAIST work\FujLatestCode\boost_1_54_0\boost_1_54_0" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"x64\Release\simplecab.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IC:\opencv\build\include /I"C:\Program Files\MySQL\MySQL Server 5.6\include" /I"C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include" /I"C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\cppconn" /I"D:\NAIST work\FujLatestCode\mysql-5.6.13-winx64\mysql64\include" /I"D:\NAIST work\FujLatestCode\boost_1_54_0\boost_1_54_0" /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Release\\" /Fd"x64\Release\vc100.pdb" /Gd /TP /errorReport:prompt objectInfo.cpp simplecab.cpp
+         objectInfo.cpp
+     1>objectInfo.cpp(46): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>objectInfo.cpp(47): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+         simplecab.cpp
+     1>c:\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\program files\mysql\mysql connector c++ 1.1.3\include\cppconn\sqlstring.h(38): warning C4251: 'sql::SQLString::realStr' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'sql::SQLString'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+     1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\mysql_connection.h(165): warning C4251: 'sql::mysql::MySQL_Connection::proxy' : class 'boost::shared_ptr<T>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+                 with
+                 [
+                     T=sql::mysql::NativeAPI::NativeConnectionWrapper
+                 ]
+     1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\mysql_connection.h(169): warning C4251: 'sql::mysql::MySQL_Connection::service' : class 'boost::scoped_ptr<T>' needs to have dll-interface to be used by clients of class 'sql::mysql::MySQL_Connection'
+                 with
+                 [
+                     T=sql::mysql::MySQL_Statement
+                 ]
+     1>C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\include\cppconn\exception.h(61): warning C4251: 'sql::SQLException::sql_state' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'sql::SQLException'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+     1>simplecab.cpp(129): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(130): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(137): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(138): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(145): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(146): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(153): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(154): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(172): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(175): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(176): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(177): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>simplecab.cpp(211): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(211): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(212): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(212): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(213): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(213): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(214): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(214): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(216): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(216): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(217): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(217): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(218): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(218): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(219): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(219): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>simplecab.cpp(275): warning C4996: 'itoa': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _itoa. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdlib.h(867) : see declaration of 'itoa'
+     1>simplecab.cpp(304): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+     1>simplecab.cpp(252): warning C4101: 'cZ' : unreferenced local variable
+     1>simplecab.cpp(252): warning C4101: 'cX' : unreferenced local variable
+     1>simplecab.cpp(252): warning C4101: 'cY' : unreferenced local variable
+     1>simplecab.cpp(382): warning C4101: 'wsaData' : unreferenced local variable
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\x64\Release\simplecab.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\zee786\Downloads\mysql-connector-c++-noinstall-1.1.3-winx64\mysql-connector-c++-noinstall-1.1.3-winx64\lib" /LIBPATH:"C:\Program Files\MySQL\MySQL Server 5.6\lib" /LIBPATH:C:\opencv\build\x64\vc10\lib /LIBPATH:"D:\NAIST work2014\windows7\mysql-5.6.13-winx64\mysql64\lib" /LIBPATH:"C:\Program Files\MySQL\MySQL Connector C++ 1.1.3\lib\opt" mysqlcppconn.lib "mysqlcppconn-static.lib" libmysql.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\simplecab.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\x64\Release\simplecab.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\x64\Release\simplecab.lib" /MACHINE:X64 x64\Release\objectInfo.obj
+         x64\Release\simplecab.obj
+         x64\Release\stdafx.obj
+         Generating code
+         Finished generating code
+         simplecab.vcxproj -> C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\x64\Release\simplecab.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\x64\Release\simplecab.exe;#1" /manifest x64\Release\simplecab.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "x64\Release\simplecab.unsuccessfulbuild".
+         Touching "x64\Release\simplecab.lastbuildstate".
+     1>Done Building Project "C:\Users\zee\Documents\Visual Studio 2010\Projects\simplecab\simplecab\simplecab.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.18
